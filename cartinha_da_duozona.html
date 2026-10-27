@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagem do Duo 🎮</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti JS -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                        pixel: ['"Press Start 2P"', 'cursive']
+                    },
+                    colors: {
+                        gamerBg: '#0b0e14',
+                        cardBg: '#131822',
+                        discordPurple: '#5865F2',
+                        neonPurple: '#a855f7',
+                        neonCyan: '#06b6d4',
+                        neonGreen: '#22c55e'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #0b0e14;
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        /* Scanline effect for gamer theme */
+        .scanline {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0, 0, 0, 0.2) 50%,
+                rgba(0, 0, 0, 0.2)
+            );
+            background-size: 100% 4px;
+        }
+
+        /* Pulse glowing border */
+        .glow-border {
+            box-shadow: 0 0 20px -5px rgba(168, 85, 247, 0.4),
+                        0 0 10px -5px rgba(6, 182, 212, 0.3);
+        }
+
+        .glow-button {
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+            transition: all 0.2s ease-in-out;
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.8);
+            transform: translateY(-2px);
+        }
+
+        /* Floating animation for icons */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(3deg); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .animate-float-delayed {
+            animation: float 5s ease-in-out infinite 2s;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-200 flex flex-col justify-center items-center p-4 sm:p-6 relative overflow-x-hidden selection:bg-purple-500 selection:text-white">
+
+    <!-- Decorative floating gamer elements background -->
+    <div class="absolute top-10 left-10 text-purple-500/20 text-4xl animate-float pointer-events-none">
+        <i class="fa-solid fa-gamepad"></i>
+    </div>
+    <div class="absolute bottom-12 right-10 text-cyan-500/20 text-4xl animate-float-delayed pointer-events-none">
+        <i class="fa-solid fa-headset"></i>
+    </div>
+    <div class="absolute top-1/4 right-12 text-purple-400/10 text-6xl animate-float pointer-events-none">
+        <i class="fa-solid fa-trophy"></i>
+    </div>
+    <div class="absolute bottom-1/4 left-8 text-cyan-400/15 text-5xl animate-float-delayed pointer-events-none">
+        <i class="fa-solid fa-ghost"></i>
+    </div>
+
+    <!-- Main Card Container -->
+    <main class="w-full max-w-lg bg-cardBg/90 backdrop-blur-md rounded-2xl border border-purple-500/30 p-6 sm:p-8 glow-border relative z-10 my-auto shadow-2xl">
+        
+        <!-- Header Badge & Status -->
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-700 flex items-center justify-center text-white text-xl font-bold shadow-md">
+                        <i class="fa-solid fa-user-astronaut"></i>
+                    </div>
+                    <span class="absolute -bottom-1 -right-1 w-4 h-4 bg-neonGreen border-2 border-cardBg rounded-full" title="Online no Duo"></span>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-bold text-lg text-white tracking-wide">MENSAGEM DO DUO</h1>
+                        <span class="bg-purple-500/20 text-purple-300 text-xs px-2 py-0.5 rounded border border-purple-500/30 font-mono">v23.12</span>
+                    </div>
+                    <p class="text-xs text-slate-400 font-mono flex items-center gap-1.5 mt-0.5">
+                        <i class="fa-solid fa-shield-halved text-cyan-400"></i> DUO FOR LIFE 🎮
+                    </p>
+                </div>
+            </div>
+            
+            <div class="hidden sm:flex flex-col items-end">
+                <span class="text-[10px] font-mono text-purple-400 bg-purple-950/60 px-2 py-1 rounded border border-purple-800/40">
+                    STATUS: LENDÁRIO
+                </span>
+            </div>
+        </div>
+
+        <!-- Locked Card View (Initial State) -->
+        <div id="locked-view" class="text-center py-8 space-y-5">
+            <div class="w-20 h-20 mx-auto bg-purple-950/40 rounded-full flex items-center justify-center border border-purple-500/30 text-purple-400 text-3xl animate-bounce">
+                <i class="fa-solid fa-envelope-open-text"></i>
+            </div>
+            <div>
+                <h2 class="text-xl font-bold text-white mb-1">Nova mensagem recebida!</h2>
+                <p class="text-sm text-slate-400">Seu duo te mandou um recado direto do lobby às 23:12.</p>
+            </div>
+            <button onclick="unlockMessage()" class="glow-button w-full py-3.5 px-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-xl flex items-center justify-center gap-2 text-sm tracking-wider uppercase transition-all">
+                <i class="fa-solid fa-unlock"></i> Abrir Cartinha da Duozona
+            </button>
+        </div>
+
+        <!-- Unlocked Card Content (Hidden by default) -->
+        <div id="unlocked-view" class="hidden space-y-4">
+            
+            <!-- Terminal-like header inside letter -->
+            <div class="bg-slate-950/80 rounded-lg p-2.5 font-mono text-xs text-slate-400 flex items-center justify-between border border-slate-800">
+                <span class="text-cyan-400 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                    transmission_2312.txt
+                </span>
+                <span class="text-slate-500">23:12 BRT</span>
+            </div>
+
+            <!-- Letter Body -->
+            <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5 text-slate-200 text-sm sm:text-base leading-relaxed space-y-3 font-normal">
+                <p>
+                    oiiii duozonaaa nem tava nos planos essa cartinhaaaa kkkk sao 23:12 e eu decidí fazer kkkkk num seii so me deu vontade de fazer uma cartinha pra te falar q primeiramente duozona <strong class="text-purple-400 font-semibold bg-purple-950/50 px-1.5 py-0.5 rounded border border-purple-800/40">EU GOSTO MTO DE SER SEU DUO</strong> ta? ser <strong class="text-cyan-400 font-semibold bg-cyan-950/50 px-1.5 py-0.5 rounded border border-cyan-800/40">SEU AMIGÃO</strong> q pode contar sempree…
+                </p>
+                <p>
+                    vc sabe pq q tenho tanto medo de te perder duo? e por isso eu sempre quero me explicar q nn to bravo e pedir desculpa e tals? pq eu sei q uma pessoa igual vc num existe mais de uma no mundoo taaa?
+                </p>
+                <p>
+                    eu pss te chamar de duozona pra sempreee? lkkkkkk promete q nossa amizade vai ter o infinito pela frente duozona?
+                </p>
+                <p>
+                    diculpa duozona kkkkk simplesmente eu tava indo mimir e falei: <span class="italic text-purple-300">"vou fazer uma cartinha pra falar q ela é a melhor"</span> kkkkkk vc é a unica pessoa do mundo q sei q pss contar sempre minha duooo, sempre q eu precisar ce vai estar aq cmg 🫶
+                </p>
+                <div class="pt-2 border-t border-slate-800/80">
+                    <p class="text-center font-bold text-purple-300 text-base py-1">
+                        Num deixa de ser minha melhor do mundo nunca heinnnn 🚀
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer Action Buttons -->
+            <div class="pt-2 flex flex-col sm:flex-row gap-3">
+                <button onclick="triggerGamerConfetti()" class="glow-button flex-1 py-3 px-4 bg-purple-600/30 hover:bg-purple-600/50 border border-purple-500/50 text-purple-200 font-semibold rounded-xl flex items-center justify-center gap-2 text-sm transition-all">
+                    <i class="fa-solid fa-sparkles text-amber-400"></i> Mandar Pixel Burst ✨
+                </button>
+                <button onclick="copyText()" class="py-3 px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl flex items-center justify-center gap-2 text-sm transition-all border border-slate-700">
+                    <i class="fa-solid fa-copy" id="copy-icon"></i> <span id="copy-text">Copiar Texto</span>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Footer Tag -->
+        <div class="mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-500 font-mono">
+            <span>MODO: BEST FRIENDS</span>
+            <span class="flex items-center gap-1">
+                <i class="fa-solid fa-infinity text-purple-400"></i> DUO PRA SEMPRE
+            </span>
+        </div>
+
+    </main>
+
+    <!-- Toast notification for copy -->
+    <div id="toast" class="fixed bottom-6 bg-purple-600 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-lg border border-purple-400/30 transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-2">
+        <i class="fa-solid fa-check-circle text-cyan-300"></i> Texto copiado com sucesso!
+    </div>
+
+    <script>
+        // Unlock card logic
+        function unlockMessage() {
+            document.getElementById('locked-view').classList.add('hidden');
+            document.getElementById('unlocked-view').classList.remove('hidden');
+            triggerGamerConfetti();
+        }
+
+        // Cool gamer/star confetti effect
+        function triggerGamerConfetti() {
+            var count = 200;
+            var defaults = {
+                origin: { y: 0.7 }
+            };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            // Fire cool colored confetti (purple, cyan, gold, white)
+            fire(0.25, {
+                spread: 26,
+                startVelocity: 55,
+                colors: ['#a855f7', '#06b6d4', '#ffffff']
+            });
+            fire(0.2, {
+                spread: 60,
+                colors: ['#3b82f6', '#8b5cf6', '#eab308']
+            });
+            fire(0.35, {
+                spread: 100,
+                decay: 0.91,
+                scalar: 0.8
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 25,
+                decay: 0.92,
+                colors: ['#a855f7', '#06b6d4']
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 45,
+            });
+        }
+
+        // Copy text helper
+        function copyText() {
+            const rawText = `oiiii duozonaaa nem tava nos planos essa cartinhaaaa kkkk sao 23:12 e eu decidí fazer kkkkk num seii so me deu vontade de fazer uma cartinha pra te falar q primeiramente duozona EU GOSTO MTO DE SER SEU DUO ta? ser SEU AMIGÃO q pode contar sempree… vc sabe pq q tenho tanto medo de te perder duo? e por isso eu sempre quero me explicar q nn to bravo e pedir desculpa e tals? pq eu sei q uma pessoa igual vc num existe mais de uma no mundoo taaa? eu pss te chamar de duozona pra sempreee? lkkkkkk promete q nossa amizade vai ter o infinito pela frente duozona? diculpa duozona kkkkk simplesmente eu tava indo mimir e falei: vou fazer uma cartinha pra falar q ela é a melhor kkkkkk vc é a unica pessoa do mundo q sei q pss contar sempre minha duooo, sempre q eu precisar ce vai estar aq cmg 🫶 Num deixa de ser minha melhor do mundo nunca heinnnn`;
+
+            // Fallback copy execution
+            const textArea = document.createElement("textarea");
+            textArea.value = rawText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast();
+            } catch (err) {
+                console.error('Erro ao copiar', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
